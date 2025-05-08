@@ -33,11 +33,7 @@ public class Cuenta {
     validarMontoPositivo(cuanto);
     validarDisponibilidadDeposito();
 
-    // FIXME: TOTALMENTE INNECESARIO DERIVAR AL MOVIMIENTO LA RESPONSABILIDAD DE AGREGARLO A LA
-    //  LISTA.
-    // FIXME: SOBRE TODO VIENDO QUE TENEMOS UN METODO PARA HACERLO Y TIENTA A ROMPE EL
-    //  ENCAPSULAMIENTO (FEATURE ENVY)
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    agregarMovimiento(LocalDate.now(), cuanto, true);
   }
 
   public void sacar(double cuanto) {
@@ -46,16 +42,14 @@ public class Cuenta {
     validarSaldoDisponible(cuanto);
     validarLimiteDeExtraccionDiario(cuanto);
 
-    // FIXME: TOTALMENTE INNECESARIO DERIVAR AL MOVIMIENTO LA RESPONSABILIDAD DE AGREGARLO A LA
-    //  LISTA.
-    // FIXME: SOBRE TODO VIENDO QUE TENEMOS UN METODO PARA HACERLO Y TIENTA A ROMPE EL
-    //  ENCAPSULAMIENTO (FEATURE ENVY)
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+    agregarMovimiento(LocalDate.now(), cuanto, false);
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
 
     movimientos.add(new Movimiento(fecha, cuanto, esDeposito));
+
+    // TODO: CORREGIR EL SALDO
   }
 
   // --- Getters ---
