@@ -110,12 +110,10 @@ public class Cuenta {
 
   private void validarLimiteDeExtraccionDiario(double monto) {
 
-    // FIXME: SE USO VAR EN LUGAR DEL TIPO DE DATO CORRESPONDIENTE, ES UN LENGUAJE TIPADO...
-    //  APROVECHEMOSLO
-    var montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
+    double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
     // FIXME: EL LIMITE DIARIO (1000) PODRIA ESTAR GUARDADO EN UNA VARIABLE, EN CASO DE QUE
     //  HAYA QUE MODIFICARLO SERIA MAS SENCILLO
-    var limite = 1000 - montoExtraidoHoy;
+    double limite = 1000 - montoExtraidoHoy;
     if (monto > limite) {
       throw new MaximoExtraccionDiarioException(
           "No puede extraer mas de $ " + 1000 + " diarios, " + "límite: " + limite);
