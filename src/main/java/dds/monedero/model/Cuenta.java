@@ -7,7 +7,6 @@ import dds.monedero.exceptions.SaldoMenorException;
 import dds.monedero.model.movimientos.Deposito;
 import dds.monedero.model.movimientos.Extraccion;
 import dds.monedero.model.movimientos.Movimiento;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

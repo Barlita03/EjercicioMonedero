@@ -7,6 +7,7 @@ import dds.monedero.exceptions.MaximaCantidadDepositosException;
 import dds.monedero.exceptions.MaximoExtraccionDiarioException;
 import dds.monedero.exceptions.MontoNegativoException;
 import dds.monedero.exceptions.SaldoMenorException;
+import dds.monedero.model.movimientos.Movimiento;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -97,6 +98,36 @@ public class MonederoTest {
     assertEquals("No puede extraer mas de $1000 diarios, límite: 1000.0", e.getMessage());
   }
 
-  // TODO: FALTA UN TEST PARA VALIDAR QUE LOS MOVIMIENTOS SE ALMACENEN CORRECTAMENTE EN LA LISTA DE
-  //  MOVIMIENTOS
+  @Test
+  @DisplayName("Los movimientos se almacenan correctamente en la lista")
+  void TresDepositosAlmacenadosCorrectamente() {
+    cuenta.poner(1500);
+    cuenta.sacar(500);
+    cuenta.poner(1000);
+
+    assertEquals(1500 - 500 + 1000, cuenta.getSaldo());
+    assertEquals(3, cuenta.getMovimientos().size());
+  }
+
+  @Test
+  @DisplayName("El total de depositos es correcto")
+  void TotalDepositado() {
+    cuenta.poner(1500);
+    cuenta.sacar(500);
+    cuenta.poner(1000);
+
+    assertEquals(
+        2500, cuenta.getMovimientos().stream().mapToDouble(Movimiento::cantidadDepositada).sum());
+  }
+
+  @Test
+  @DisplayName("El total de depositos es correcto")
+  void TotalExtraido() {
+    cuenta.poner(1500);
+    cuenta.sacar(500);
+    cuenta.poner(1000);
+
+    assertEquals(
+        500, cuenta.getMovimientos().stream().mapToDouble(Movimiento::cantidadExtraida).sum());
+  }
 }
