@@ -26,32 +26,6 @@ public class Cuenta {
     saldo = montoInicial;
   }
 
-  // --- Metodos ---
-
-  public void poner(double cuanto) {
-
-    validarMontoPositivo(cuanto);
-    validarDisponibilidadDeposito();
-
-    agregarMovimiento(LocalDate.now(), cuanto, true);
-  }
-
-  public void sacar(double cuanto) {
-
-    validarMontoPositivo(cuanto);
-    validarSaldoDisponible(cuanto);
-    validarLimiteDeExtraccionDiario(cuanto);
-
-    agregarMovimiento(LocalDate.now(), cuanto, false);
-  }
-
-  public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
-
-    movimientos.add(new Movimiento(fecha, cuanto, esDeposito));
-
-    // TODO: CORREGIR EL SALDO
-  }
-
   // --- Getters ---
 
   public double getMontoExtraidoA(LocalDate fecha) {
@@ -77,6 +51,40 @@ public class Cuenta {
 
   private void setSaldo(double saldo) {
     this.saldo = saldo;
+  }
+
+  // --- Metodos ---
+
+  public void poner(double cuanto) {
+
+    validarMontoPositivo(cuanto);
+    validarDisponibilidadDeposito();
+
+    agregarMovimiento(LocalDate.now(), cuanto, true);
+  }
+
+  public void sacar(double cuanto) {
+
+    validarMontoPositivo(cuanto);
+    validarSaldoDisponible(cuanto);
+    validarLimiteDeExtraccionDiario(cuanto);
+
+    agregarMovimiento(LocalDate.now(), cuanto, false);
+  }
+
+  private void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
+
+    Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
+    movimientos.add(movimiento);
+    corregirSaldo(movimiento);
+  }
+
+  private void corregirSaldo(Movimiento movimiento) {
+    if (movimiento.isDeposito()) {
+      setSaldo(saldo + movimiento.getMonto());
+    } else {
+      setSaldo(saldo - movimiento.getMonto());
+    }
   }
 
   // --- Validaciones ---

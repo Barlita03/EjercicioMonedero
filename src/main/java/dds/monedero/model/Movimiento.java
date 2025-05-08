@@ -47,13 +47,4 @@ public class Movimiento {
   public boolean isExtraccion() {
     return !esDeposito;
   }
-
-  //  FIXME: ESTE METODO HAY QUE LLEVARLO A Cuenta (Creo que es Feature Envy)
-  public double calcularValor(Cuenta cuenta) {
-    if (esDeposito) {
-      return cuenta.getSaldo() + getMonto();
-    } else {
-      return cuenta.getSaldo() - getMonto();
-    }
-  }
 }
