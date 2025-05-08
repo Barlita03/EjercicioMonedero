@@ -37,10 +37,10 @@ public class MonederoTest {
 
   @Test
   @DisplayName("No es posible extraer un monto negativo")
-  // FIXME: LA VERDAD ES QUE NO HAY NADA PARA ARREGLAR PERO PODRIA AGREGAR QUE EL TEXTO DE LA
-  //  EXCEPCION ES EL QUE CORRESPONDE COMO PARA MEJORARLO.
   void ExtraerMontoNegativo() {
-    assertThrows(MontoNegativoException.class, () -> cuenta.sacar(-500));
+    Exception e = assertThrows(MontoNegativoException.class, () -> cuenta.sacar(-500));
+
+    assertEquals("-500 + : el monto a operar debe ser un valor positivo", e.getMessage());
   }
 
   @Test
