@@ -52,9 +52,7 @@ public class Cuenta {
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
 
-    // FIXME: NO ESTA MAL COMO TAL PERO PODRIA AHORRARSE EL CREAR LA VARIABLE MOVIMIENTO
-    var movimiento = new Movimiento(fecha, cuanto, esDeposito);
-    movimientos.add(movimiento);
+    movimientos.add(new Movimiento(fecha, cuanto, esDeposito));
   }
 
   // --- Getters ---
@@ -70,14 +68,14 @@ public class Cuenta {
     return movimientos;
   }
 
+  private double getSaldo() {
+    return saldo;
+  }
+
   // --- Setters ---
 
   private void setMovimientos(List<Movimiento> movimientos) {
     this.movimientos = movimientos;
-  }
-
-  private double getSaldo() {
-    return saldo;
   }
 
   private void setSaldo(double saldo) {
