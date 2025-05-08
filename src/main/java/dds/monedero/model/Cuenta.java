@@ -98,7 +98,7 @@ public class Cuenta {
 
   private void validarDisponibilidadDeposito() {
     if (getMovimientos().stream()
-        .filter(movimiento -> movimiento.fueDepositado(LocalDate.now()))
+        .filter(movimiento -> movimiento.fueDepositadoEn(LocalDate.now()))
         .count()
         >= cantidadMaximaDeDepositosDiarios) {
       throw new MaximaCantidadDepositosException("Ya excedio los " + cantidadMaximaDeDepositosDiarios + " depositos diarios");
