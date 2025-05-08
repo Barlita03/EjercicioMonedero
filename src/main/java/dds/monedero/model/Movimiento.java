@@ -4,17 +4,26 @@ import java.time.LocalDate;
 
 public class Movimiento {
   private LocalDate fecha;
-  // Nota: En ningún lenguaje de programación usen jamás doubles (es decir, números con punto flotante) para modelar dinero en el mundo real.
-  // En su lugar siempre usen numeros de precision arbitraria o punto fijo, como BigDecimal en Java y similares
-  // De todas formas, NO es necesario modificar ésto como parte de este ejercicio. 
+
+  // NOTE: GRACIAS POR LA NOTA PERO LA VOY A SACAR POR QUE ME DA TOC
+  // Nota: En ningún lenguaje de programación usen jamás doubles (es decir, números con punto
+  // flotante) para modelar dinero en el mundo real.
+  // En su lugar siempre usen numeros de precision arbitraria o punto fijo, como BigDecimal en Java
+  // y similares
+  // De todas formas, NO es necesario modificar ésto como parte de este ejercicio.
+
   private double monto;
   private boolean esDeposito;
+
+  // --- Constructor ---
 
   public Movimiento(LocalDate fecha, double monto, boolean esDeposito) {
     this.fecha = fecha;
     this.monto = monto;
     this.esDeposito = esDeposito;
   }
+
+  // --- Getters ---
 
   public double getMonto() {
     return monto;
@@ -24,10 +33,14 @@ public class Movimiento {
     return fecha;
   }
 
+  // --- Metodos ---
+
+  // FIXME: NO SE SI ES UN ERROR PERO CAMBIARIA EL NOMBRE A: "fueDepositadoEn(LocalDate fecha)"
   public boolean fueDepositado(LocalDate fecha) {
     return isDeposito() && esDeLaFecha(fecha);
   }
 
+  // FIXME: NO SE SI ES UN ERROR PERO CAMBIARIA EL NOMBRE A: "fueDepositadoEn(LocalDate fecha)"
   public boolean fueExtraido(LocalDate fecha) {
     return isExtraccion() && esDeLaFecha(fecha);
   }
@@ -44,11 +57,13 @@ public class Movimiento {
     return !esDeposito;
   }
 
+  // FIXME: ESTE METODO ROMPE DESCARADAMENTE EL ENCAPSULAMIENTO
   public void agregateA(Cuenta cuenta) {
     cuenta.setSaldo(calcularValor(cuenta));
     cuenta.agregarMovimiento(fecha, monto, esDeposito);
   }
 
+  //  FIXME: ESTE METODO HAY QUE LLEVARLO A Cuenta
   public double calcularValor(Cuenta cuenta) {
     if (esDeposito) {
       return cuenta.getSaldo() + getMonto();
