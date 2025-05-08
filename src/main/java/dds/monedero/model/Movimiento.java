@@ -28,12 +28,10 @@ public class Movimiento {
 
   // --- Metodos ---
 
-  // FIXME: NO SE SI ES UN ERROR PERO CAMBIARIA EL NOMBRE A: "fueDepositadoEn(LocalDate fecha)"
   public boolean fueDepositadoEn(LocalDate fecha) {
     return isDeposito() && esDeLaFecha(fecha);
   }
 
-  // FIXME: NO SE SI ES UN ERROR PERO CAMBIARIA EL NOMBRE A: "fueDepositadoEn(LocalDate fecha)"
   public boolean fueExtraidoEn(LocalDate fecha) {
     return isExtraccion() && esDeLaFecha(fecha);
   }
@@ -48,12 +46,6 @@ public class Movimiento {
 
   public boolean isExtraccion() {
     return !esDeposito;
-  }
-
-  // FIXME: ESTE METODO ROMPE DESCARADAMENTE EL ENCAPSULAMIENTO
-  public void agregateA(Cuenta cuenta) {
-    cuenta.setSaldo(calcularValor(cuenta));
-    cuenta.agregarMovimiento(fecha, monto, esDeposito);
   }
 
   //  FIXME: ESTE METODO HAY QUE LLEVARLO A Cuenta (Creo que es Feature Envy)
