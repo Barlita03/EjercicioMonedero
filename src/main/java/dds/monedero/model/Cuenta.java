@@ -25,7 +25,6 @@ public class Cuenta {
 
   // --- Metodos ---
 
-  // FIXME: LAS VALIDACIONES PODRIAN SER ABSTRAIDAS EN OTROS METODOS (LONGMETHOD)
   public void poner(double cuanto) {
 
     validarMontoPositivo(cuanto);
@@ -38,7 +37,6 @@ public class Cuenta {
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
   }
 
-  // FIXME: LAS VALIDACIONES PODRIAN SER ABSTRAIDAS EN OTROS METODOS (LONGMETHOD)
   public void sacar(double cuanto) {
 
     validarMontoPositivo(cuanto);
@@ -74,18 +72,15 @@ public class Cuenta {
 
   // --- Setters ---
 
-  // FIXME: ES MUY PELIGROSO QUE UN SETTER SEA PUBLICO (TIENTA A ROMPER EL ENCAPSULAMIENTO)
-  public void setMovimientos(List<Movimiento> movimientos) {
+  private void setMovimientos(List<Movimiento> movimientos) {
     this.movimientos = movimientos;
   }
 
-  // FIXME: ES MUY PELIGROSO QUE UN SETTER SEA PUBLICO (TIENTA A ROMPER EL ENCAPSULAMIENTO)
-  public double getSaldo() {
+  private double getSaldo() {
     return saldo;
   }
 
-  // FIXME: ES MUY PELIGROSO QUE UN SETTER SEA PUBLICO (TIENTA A ROMPER EL ENCAPSULAMIENTO)
-  public void setSaldo(double saldo) {
+  private void setSaldo(double saldo) {
     this.saldo = saldo;
   }
 
