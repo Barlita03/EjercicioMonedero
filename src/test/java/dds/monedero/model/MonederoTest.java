@@ -52,7 +52,7 @@ public class MonederoTest {
     cuenta.poner(456);
     cuenta.poner(1900);
 
-    // TODO: AGREGAR EL ASSERT
+    assertEquals(1500 + 456 + 1900, cuenta.getSaldo());
   }
 
   @Test
