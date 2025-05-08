@@ -56,14 +56,15 @@ public class MonederoTest {
   @Test
   @DisplayName("No es posible superar la máxima cantidad de depositos diarios")
   void MasDeTresDepositos() {
-    Exception e = assertThrows(
-        MaximaCantidadDepositosException.class,
-        () -> {
-          cuenta.poner(1500);
-          cuenta.poner(456);
-          cuenta.poner(1900);
-          cuenta.poner(245);
-        });
+    Exception e =
+        assertThrows(
+            MaximaCantidadDepositosException.class,
+            () -> {
+              cuenta.poner(1500);
+              cuenta.poner(456);
+              cuenta.poner(1900);
+              cuenta.poner(245);
+            });
 
     assertEquals("Ya excedio los 3 depositos diarios", e.getMessage());
   }
@@ -71,12 +72,13 @@ public class MonederoTest {
   @Test
   @DisplayName("No es posible extraer más que el saldo disponible")
   void ExtraerMasQueElSaldo() {
-    Exception e = assertThrows(
-        SaldoMenorException.class,
-        () -> {
-          cuenta.poner(90);
-          cuenta.sacar(100);
-        });
+    Exception e =
+        assertThrows(
+            SaldoMenorException.class,
+            () -> {
+              cuenta.poner(90);
+              cuenta.sacar(100);
+            });
 
     assertEquals("No puede sacar mas de $90.0", e.getMessage());
   }
@@ -84,13 +86,17 @@ public class MonederoTest {
   @Test
   @DisplayName("No es posible extraer más que el límite diario")
   void ExtraerMasDe1000() {
-    Exception e = assertThrows(
-        MaximoExtraccionDiarioException.class,
-        () -> {
-          cuenta.poner(5000);
-          cuenta.sacar(1001);
-        });
+    Exception e =
+        assertThrows(
+            MaximoExtraccionDiarioException.class,
+            () -> {
+              cuenta.poner(5000);
+              cuenta.sacar(1001);
+            });
 
     assertEquals("No puede extraer mas de $1000 diarios, límite: 1000.0", e.getMessage());
   }
+
+  // TODO: FALTA UN TEST PARA VALIDAR QUE LOS MOVIMIENTOS SE ALMACENEN CORRECTAMENTE EN LA LISTA DE
+  //  gMOVIMIENTOS
 }

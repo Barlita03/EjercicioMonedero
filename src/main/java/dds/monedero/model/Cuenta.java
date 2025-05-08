@@ -15,7 +15,6 @@ public class Cuenta {
   private int cantidadMaximaDeDepositosDiarios = 3;
   private int limiteDeExtraccionDiario = 1000;
 
-
   // --- Constructores ---
 
   public Cuenta() {
@@ -79,6 +78,7 @@ public class Cuenta {
     corregirSaldo(movimiento);
   }
 
+  // FIXME: PREGUNTAR SI UN MOVIMIENTO ES O NO DEPOSITO ES UN TYPE TEST
   private void corregirSaldo(Movimiento movimiento) {
     if (movimiento.isDeposito()) {
       setSaldo(saldo + movimiento.getMonto());
@@ -98,10 +98,11 @@ public class Cuenta {
 
   private void validarDisponibilidadDeposito() {
     if (getMovimientos().stream()
-        .filter(movimiento -> movimiento.fueDepositadoEn(LocalDate.now()))
-        .count()
+            .filter(movimiento -> movimiento.fueDepositadoEn(LocalDate.now()))
+            .count()
         >= cantidadMaximaDeDepositosDiarios) {
-      throw new MaximaCantidadDepositosException("Ya excedio los " + cantidadMaximaDeDepositosDiarios + " depositos diarios");
+      throw new MaximaCantidadDepositosException(
+          "Ya excedio los " + cantidadMaximaDeDepositosDiarios + " depositos diarios");
     }
   }
 
@@ -117,7 +118,11 @@ public class Cuenta {
     double limite = limiteDeExtraccionDiario - montoExtraidoHoy;
     if (monto > limite) {
       throw new MaximoExtraccionDiarioException(
-          "No puede extraer mas de $" + limiteDeExtraccionDiario + " diarios, " + "límite: " + limite);
+          "No puede extraer mas de $"
+              + limiteDeExtraccionDiario
+              + " diarios, "
+              + "límite: "
+              + limite);
     }
   }
 }
