@@ -32,7 +32,7 @@ public class MonederoTest {
   void PonerMontoNegativo() {
     Exception e = assertThrows(MontoNegativoException.class, () -> cuenta.poner(-1500));
 
-    assertEquals("-1.500 + : el monto a operar debe ser un valor positivo", e.getMessage());
+    assertEquals("-1500.0: el monto a operar debe ser un valor positivo", e.getMessage());
   }
 
   @Test
@@ -40,7 +40,7 @@ public class MonederoTest {
   void ExtraerMontoNegativo() {
     Exception e = assertThrows(MontoNegativoException.class, () -> cuenta.sacar(-500));
 
-    assertEquals("-500 + : el monto a operar debe ser un valor positivo", e.getMessage());
+    assertEquals("-500.0: el monto a operar debe ser un valor positivo", e.getMessage());
   }
 
   @Test
@@ -78,7 +78,7 @@ public class MonederoTest {
           cuenta.sacar(100);
         });
 
-    assertEquals("No puede sacar mas de $90", e.getMessage());
+    assertEquals("No puede sacar mas de $90.0", e.getMessage());
   }
 
   @Test
@@ -91,6 +91,6 @@ public class MonederoTest {
           cuenta.sacar(1001);
         });
 
-    assertEquals("No puede extraer mas de $1000 diarios, límite: 1000", e.getMessage());
+    assertEquals("No puede extraer mas de $1000 diarios, límite: 1000.0", e.getMessage());
   }
 }
