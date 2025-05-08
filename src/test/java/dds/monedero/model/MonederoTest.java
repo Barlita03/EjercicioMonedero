@@ -71,21 +71,18 @@ public class MonederoTest {
   @Test
   @DisplayName("No es posible extraer más que el saldo disponible")
   void ExtraerMasQueElSaldo() {
-    assertThrows(
+    Exception e = assertThrows(
         SaldoMenorException.class,
         () -> {
-          cuenta.setSaldo(90);
-          // FIXME: LA CANTIDAD ESTABLECIDA SUPERA INCLUSO LA MAXIMA DE EXTRACCION DIARIA
-          // FIXME: PARA EVITAR PROBLEMAS LE PONDRIA UN NUMERO MEJOR PERO QUE SEA MAYOR AL SALDO
-          //  DISPONIBLE
-          cuenta.sacar(1001);
+          cuenta.poner(90);
+          cuenta.sacar(100);
         });
+
+    assertEquals("No puede sacar mas de $90", e.getMessage());
   }
 
   @Test
   @DisplayName("No es posible extraer más que el límite diario")
-  // FIXME: LA VERDAD ES QUE NO HAY NADA PARA ARREGLAR PERO PODRIA AGREGAR QUE EL TEXTO DE LA
-  //  EXCEPCION ES EL QUE CORRESPONDE COMO PARA MEJORARLO.
   void ExtraerMasDe1000() {
     Exception e = assertThrows(
         MaximoExtraccionDiarioException.class,

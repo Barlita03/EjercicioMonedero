@@ -107,7 +107,7 @@ public class Cuenta {
 
   private void validarSaldoDisponible(double monto) {
     if (getSaldo() - monto < 0) {
-      throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
+      throw new SaldoMenorException("No puede sacar mas de $" + getSaldo());
     }
   }
 
