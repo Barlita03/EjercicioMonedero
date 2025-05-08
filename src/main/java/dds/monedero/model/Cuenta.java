@@ -4,6 +4,10 @@ import dds.monedero.exceptions.MaximaCantidadDepositosException;
 import dds.monedero.exceptions.MaximoExtraccionDiarioException;
 import dds.monedero.exceptions.MontoNegativoException;
 import dds.monedero.exceptions.SaldoMenorException;
+import dds.monedero.model.movimientos.Deposito;
+import dds.monedero.model.movimientos.Extraccion;
+import dds.monedero.model.movimientos.Movimiento;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +33,8 @@ public class Cuenta {
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))
-        .mapToDouble(Movimiento::getMonto)
+        .filter(movimiento -> movimiento.getFecha().equals(fecha))
+        .mapToDouble(Movimiento::cantidadExtraida)
         .sum();
   }
 
@@ -59,7 +63,7 @@ public class Cuenta {
     validarMontoPositivo(cuanto);
     validarDisponibilidadDeposito();
 
-    agregarMovimiento(LocalDate.now(), cuanto, true);
+    agregarDeposito(LocalDate.now(), cuanto);
   }
 
   public void sacar(double cuanto) {
@@ -68,23 +72,21 @@ public class Cuenta {
     validarSaldoDisponible(cuanto);
     validarLimiteDeExtraccionDiario(cuanto);
 
-    agregarMovimiento(LocalDate.now(), cuanto, false);
+    agregarExtracion(LocalDate.now(), cuanto);
   }
 
-  private void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
+  private void agregarDeposito(LocalDate fecha, double cuanto) {
 
-    Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
+    Movimiento movimiento = new Deposito(fecha, cuanto);
     movimientos.add(movimiento);
-    corregirSaldo(movimiento);
+    setSaldo(saldo + cuanto);
   }
 
-  // FIXME: PREGUNTAR SI UN MOVIMIENTO ES O NO DEPOSITO ES UN TYPE TEST
-  private void corregirSaldo(Movimiento movimiento) {
-    if (movimiento.isDeposito()) {
-      setSaldo(saldo + movimiento.getMonto());
-    } else {
-      setSaldo(saldo - movimiento.getMonto());
-    }
+  private void agregarExtracion(LocalDate fecha, double cuanto) {
+
+    Movimiento movimiento = new Extraccion(fecha, cuanto);
+    movimientos.add(movimiento);
+    setSaldo(saldo - cuanto);
   }
 
   // --- Validaciones ---
@@ -98,7 +100,7 @@ public class Cuenta {
 
   private void validarDisponibilidadDeposito() {
     if (getMovimientos().stream()
-            .filter(movimiento -> movimiento.fueDepositadoEn(LocalDate.now()))
+            .filter(movimiento -> movimiento.fueRealizadoEn(LocalDate.now()))
             .count()
         >= cantidadMaximaDeDepositosDiarios) {
       throw new MaximaCantidadDepositosException(
