@@ -55,10 +55,8 @@ public class MonederoTest {
 
   @Test
   @DisplayName("No es posible superar la máxima cantidad de depositos diarios")
-  // FIXME: LA VERDAD ES QUE NO HAY NADA PARA ARREGLAR PERO PODRIA AGREGAR QUE EL TEXTO DE LA
-  //  EXCEPCION ES EL QUE CORRESPONDE COMO PARA MEJORARLO.
   void MasDeTresDepositos() {
-    assertThrows(
+    Exception e = assertThrows(
         MaximaCantidadDepositosException.class,
         () -> {
           cuenta.poner(1500);
@@ -66,6 +64,8 @@ public class MonederoTest {
           cuenta.poner(1900);
           cuenta.poner(245);
         });
+
+    assertEquals("Ya excedio los 3 depositos diarios", e.getMessage());
   }
 
   @Test
