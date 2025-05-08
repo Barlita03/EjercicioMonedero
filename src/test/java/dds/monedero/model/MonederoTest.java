@@ -1,5 +1,6 @@
 package dds.monedero.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dds.monedero.exceptions.MaximaCantidadDepositosException;
@@ -23,7 +24,7 @@ public class MonederoTest {
   void Poner() {
     cuenta.poner(1500);
 
-    // TODO: AGREGAR EL ASSERT
+    assertEquals(1500, cuenta.getSaldo());
   }
 
   @Test

@@ -39,7 +39,7 @@ public class Cuenta {
     return movimientos;
   }
 
-  private double getSaldo() {
+  public double getSaldo() {
     return saldo;
   }
 
