@@ -17,6 +17,7 @@ public class Movimiento {
 
   // --- Constructor ---
 
+  // NOTE: Y... son solo 3 parametros pero quizas podrian envolverse en otra clase
   public Movimiento(LocalDate fecha, double monto, boolean esDeposito) {
     this.fecha = fecha;
     this.monto = monto;
@@ -63,7 +64,7 @@ public class Movimiento {
     cuenta.agregarMovimiento(fecha, monto, esDeposito);
   }
 
-  //  FIXME: ESTE METODO HAY QUE LLEVARLO A Cuenta
+  //  FIXME: ESTE METODO HAY QUE LLEVARLO A Cuenta (Creo que es Feature Envy)
   public double calcularValor(Cuenta cuenta) {
     if (esDeposito) {
       return cuenta.getSaldo() + getMonto();

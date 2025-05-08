@@ -29,7 +29,7 @@ public class MonederoTest {
   @Test
   @DisplayName("No es posible poner montos negativos")
   // FIXME: LA VERDAD ES QUE NO HAY NADA PARA ARREGLAR PERO PODRIA AGREGAR QUE EL TEXTO DE LA
-  // FIXME: EXCEPCION
+  //  EXCEPCION
   // FIXME: ES EL QUE CORRESPONDE COMO PARA MEJORARLO.
   void PonerMontoNegativo() {
     assertThrows(MontoNegativoException.class, () -> cuenta.poner(-1500));
@@ -38,7 +38,7 @@ public class MonederoTest {
   @Test
   @DisplayName("No es posible extraer un monto negativo")
   // FIXME: LA VERDAD ES QUE NO HAY NADA PARA ARREGLAR PERO PODRIA AGREGAR QUE EL TEXTO DE LA
-  // FIXME: EXCEPCION
+  //  EXCEPCION
   // FIXME: ES EL QUE CORRESPONDE COMO PARA MEJORARLO.
   void ExtraerMontoNegativo() {
     assertThrows(MontoNegativoException.class, () -> cuenta.sacar(-500));
@@ -57,7 +57,7 @@ public class MonederoTest {
   @Test
   @DisplayName("No es posible superar la máxima cantidad de depositos diarios")
   // FIXME: LA VERDAD ES QUE NO HAY NADA PARA ARREGLAR PERO PODRIA AGREGAR QUE EL TEXTO DE LA
-  // FIXME: EXCEPCION
+  //  EXCEPCION
   // FIXME: ES EL QUE CORRESPONDE COMO PARA MEJORARLO.
   void MasDeTresDepositos() {
     assertThrows(
@@ -79,7 +79,7 @@ public class MonederoTest {
           cuenta.setSaldo(90);
           // FIXME: LA CANTIDAD ESTABLECIDA SUPERA INCLUSO LA MAXIMA DE EXTRACCION DIARIA
           // FIXME: PARA EVITAR PROBLEMAS LE PONDRIA UN NUMERO MEJOR PERO QUE SEA MAYOR AL SALDO
-          // FIXME: DISPONIBLE
+          //  DISPONIBLE
           cuenta.sacar(1001);
         });
   }
@@ -87,7 +87,7 @@ public class MonederoTest {
   @Test
   @DisplayName("No es posible extraer más que el límite diario")
   // FIXME: LA VERDAD ES QUE NO HAY NADA PARA ARREGLAR PERO PODRIA AGREGAR QUE EL TEXTO DE LA
-  // EXCEPCION
+  //  EXCEPCION
   // FIXME: ES EL QUE CORRESPONDE COMO PARA MEJORARLO.
   void ExtraerMasDe1000() {
     assertThrows(

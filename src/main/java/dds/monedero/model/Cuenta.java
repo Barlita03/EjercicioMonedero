@@ -10,8 +10,7 @@ import java.util.List;
 
 public class Cuenta {
 
-  // FIXME: NO ES NECESARIO INSTANCIARLO EN 0 YA QUE O TOMA UN MONTO INICIAL O 0 OBLIGATORIAMENTE
-  private double saldo = 0;
+  private double saldo;
   private List<Movimiento> movimientos = new ArrayList<>();
 
   // --- Constructores ---
@@ -26,7 +25,7 @@ public class Cuenta {
 
   // --- Metodos ---
 
-  // FIXME: LAS VALIDACIONES PODRIAN SER ABSTRAIDAS EN OTROS METODOS
+  // FIXME: LAS VALIDACIONES PODRIAN SER ABSTRAIDAS EN OTROS METODOS (LONGMETHOD)
   public void poner(double cuanto) {
 
     // TODO: ABSTRACCION VALIDAR MONTO POSITIVO
@@ -38,18 +37,20 @@ public class Cuenta {
     if (getMovimientos().stream()
             .filter(movimiento -> movimiento.fueDepositado(LocalDate.now()))
             .count()
+        // FIXME: LA CANTIDAD MAXIMA DE DEPOSITOS DIARIOS PUEDE ESTAR GUARDADA EN UNA VARIABLE,
+        //  EN CASO DE QUE HAYA QUE MODIFICARLO SERIA MAS SENCILLO
         >= 3) {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
 
     // FIXME: TOTALMENTE INNECESARIO DERIVAR AL MOVIMIENTO LA RESPONSABILIDAD DE AGREGARLO A LA
-    // FIXME: LISTA.
+    //  LISTA.
     // FIXME: SOBRE TODO VIENDO QUE TENEMOS UN METODO PARA HACERLO Y TIENTA A ROMPE EL
-    // FIXME: ENCAPSULAMIENTO
+    //  ENCAPSULAMIENTO (FEATURE ENVY)
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
   }
 
-  // FIXME: LAS VALIDACIONES PODRIAN SER ABSTRAIDAS EN OTROS METODOS
+  // FIXME: LAS VALIDACIONES PODRIAN SER ABSTRAIDAS EN OTROS METODOS (LONGMETHOD)
   public void sacar(double cuanto) {
 
     // TODO: ABSTRACCION VALIDAR MONTO POSITIVO
@@ -64,14 +65,20 @@ public class Cuenta {
 
     // FIXME: ABSTRACCION VALIDAR LIMITE
     // FIXME: SE USO VAR EN LUGAR DEL TIPO DE DATO CORRESPONDIENTE, ES UN LENGUAJE TIPADO...
-    // FIXME: APROVECHEMOSLO
+    //  APROVECHEMOSLO
     var montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
+    // FIXME: EL LIMITE DIARIO (1000) PODRIA ESTAR GUARDADO EN UNA VARIABLE, EN CASO DE QUE
+    //  HAYA QUE MODIFICARLO SERIA MAS SENCILLO
     var limite = 1000 - montoExtraidoHoy;
     if (cuanto > limite) {
       throw new MaximoExtraccionDiarioException(
           "No puede extraer mas de $ " + 1000 + " diarios, " + "límite: " + limite);
     }
 
+    // FIXME: TOTALMENTE INNECESARIO DERIVAR AL MOVIMIENTO LA RESPONSABILIDAD DE AGREGARLO A LA
+    //  LISTA.
+    // FIXME: SOBRE TODO VIENDO QUE TENEMOS UN METODO PARA HACERLO Y TIENTA A ROMPE EL
+    //  ENCAPSULAMIENTO (FEATURE ENVY)
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
   }
 
