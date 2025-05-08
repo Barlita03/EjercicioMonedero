@@ -28,20 +28,8 @@ public class Cuenta {
   // FIXME: LAS VALIDACIONES PODRIAN SER ABSTRAIDAS EN OTROS METODOS (LONGMETHOD)
   public void poner(double cuanto) {
 
-    // TODO: ABSTRACCION VALIDAR MONTO POSITIVO
-    if (cuanto <= 0) {
-      throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
-    }
-
-    // TODO: ABSTRACCION VALIDAR DISPONIBILIDAD DEPOSITO
-    if (getMovimientos().stream()
-            .filter(movimiento -> movimiento.fueDepositado(LocalDate.now()))
-            .count()
-        // FIXME: LA CANTIDAD MAXIMA DE DEPOSITOS DIARIOS PUEDE ESTAR GUARDADA EN UNA VARIABLE,
-        //  EN CASO DE QUE HAYA QUE MODIFICARLO SERIA MAS SENCILLO
-        >= 3) {
-      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
-    }
+    validarMontoPositivo(cuanto);
+    validarDisponibilidadDeposito();
 
     // FIXME: TOTALMENTE INNECESARIO DERIVAR AL MOVIMIENTO LA RESPONSABILIDAD DE AGREGARLO A LA
     //  LISTA.
@@ -53,27 +41,9 @@ public class Cuenta {
   // FIXME: LAS VALIDACIONES PODRIAN SER ABSTRAIDAS EN OTROS METODOS (LONGMETHOD)
   public void sacar(double cuanto) {
 
-    // TODO: ABSTRACCION VALIDAR MONTO POSITIVO
-    if (cuanto <= 0) {
-      throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
-    }
-
-    // TODO: ABSTRACCION VALIDAR SALDO DISPONIBLE
-    if (getSaldo() - cuanto < 0) {
-      throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
-    }
-
-    // FIXME: ABSTRACCION VALIDAR LIMITE
-    // FIXME: SE USO VAR EN LUGAR DEL TIPO DE DATO CORRESPONDIENTE, ES UN LENGUAJE TIPADO...
-    //  APROVECHEMOSLO
-    var montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
-    // FIXME: EL LIMITE DIARIO (1000) PODRIA ESTAR GUARDADO EN UNA VARIABLE, EN CASO DE QUE
-    //  HAYA QUE MODIFICARLO SERIA MAS SENCILLO
-    var limite = 1000 - montoExtraidoHoy;
-    if (cuanto > limite) {
-      throw new MaximoExtraccionDiarioException(
-          "No puede extraer mas de $ " + 1000 + " diarios, " + "límite: " + limite);
-    }
+    validarMontoPositivo(cuanto);
+    validarSaldoDisponible(cuanto);
+    validarLimiteDeExtraccionDiario(cuanto);
 
     // FIXME: TOTALMENTE INNECESARIO DERIVAR AL MOVIMIENTO LA RESPONSABILIDAD DE AGREGARLO A LA
     //  LISTA.
@@ -117,5 +87,45 @@ public class Cuenta {
   // FIXME: ES MUY PELIGROSO QUE UN SETTER SEA PUBLICO (TIENTA A ROMPER EL ENCAPSULAMIENTO)
   public void setSaldo(double saldo) {
     this.saldo = saldo;
+  }
+
+  // --- Validaciones ---
+
+  private void validarMontoPositivo(double monto) {
+
+    if (monto <= 0) {
+      throw new MontoNegativoException(monto + ": el monto a operar debe ser un valor positivo");
+    }
+  }
+
+  private void validarDisponibilidadDeposito() {
+    if (getMovimientos().stream()
+        .filter(movimiento -> movimiento.fueDepositado(LocalDate.now()))
+        .count()
+        // FIXME: LA CANTIDAD MAXIMA DE DEPOSITOS DIARIOS PUEDE ESTAR GUARDADA EN UNA VARIABLE,
+        //  EN CASO DE QUE HAYA QUE MODIFICARLO SERIA MAS SENCILLO
+        >= 3) {
+      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
+    }
+  }
+
+  private void validarSaldoDisponible(double monto) {
+    if (getSaldo() - monto < 0) {
+      throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
+    }
+  }
+
+  private void validarLimiteDeExtraccionDiario(double monto) {
+
+    // FIXME: SE USO VAR EN LUGAR DEL TIPO DE DATO CORRESPONDIENTE, ES UN LENGUAJE TIPADO...
+    //  APROVECHEMOSLO
+    var montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
+    // FIXME: EL LIMITE DIARIO (1000) PODRIA ESTAR GUARDADO EN UNA VARIABLE, EN CASO DE QUE
+    //  HAYA QUE MODIFICARLO SERIA MAS SENCILLO
+    var limite = 1000 - montoExtraidoHoy;
+    if (monto > limite) {
+      throw new MaximoExtraccionDiarioException(
+          "No puede extraer mas de $ " + 1000 + " diarios, " + "límite: " + limite);
+    }
   }
 }
