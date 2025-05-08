@@ -117,7 +117,7 @@ public class Cuenta {
     double limite = limiteDeExtraccionDiario - montoExtraidoHoy;
     if (monto > limite) {
       throw new MaximoExtraccionDiarioException(
-          "No puede extraer mas de $ " + limiteDeExtraccionDiario + " diarios, " + "límite: " + limite);
+          "No puede extraer mas de $" + limiteDeExtraccionDiario + " diarios, " + "límite: " + limite);
     }
   }
 }

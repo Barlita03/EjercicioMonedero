@@ -87,11 +87,13 @@ public class MonederoTest {
   // FIXME: LA VERDAD ES QUE NO HAY NADA PARA ARREGLAR PERO PODRIA AGREGAR QUE EL TEXTO DE LA
   //  EXCEPCION ES EL QUE CORRESPONDE COMO PARA MEJORARLO.
   void ExtraerMasDe1000() {
-    assertThrows(
+    Exception e = assertThrows(
         MaximoExtraccionDiarioException.class,
         () -> {
-          cuenta.setSaldo(5000);
+          cuenta.poner(5000);
           cuenta.sacar(1001);
         });
+
+    assertEquals("No puede extraer mas de $1000 diarios, límite: 1000", e.getMessage());
   }
 }
